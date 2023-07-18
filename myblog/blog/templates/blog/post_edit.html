@@ -43,7 +43,7 @@
 						</a>
 					</li>
 					<li>
-						<a href="{% url 'blog:write' %}" class="button">
+						<a href="#" class="button">
 							<img src="{% static 'assets/icon-modify-white.svg' %}" alt="" />
 							<span>Write</span>
 						</a>
@@ -78,10 +78,10 @@
 		<!--// header -->
 
 		<!-- banner -->
-		<div class="banner" style="background-image: url({% static 'images/post-background6.jpg' %})">
+		<div class="banner" style="background-image: url({% static 'images/post-background5.jpg' %})">
 			<div class="max-width">
-				<div class="banner-contents">
-					<p class="today">{{ post.created_at|date:"F" }}<em>{{ post.created_at|date:"d" }}</em></p>
+        <div class="banner-contents">
+					<p class="today">Write</p>
 				</div>
 			</div>
 		</div>
@@ -94,46 +94,43 @@
 				<section class="wrap-box">
 					<div class="inner">
 						<!-- author -->
-						<dl class="author-wrap">
+						{% comment %} <dl class="author-wrap">
 							<dt class="a11y-hidden">Author</dt>
 							<dd class="author"><img src="{% static 'images/profile.jpg' %}" alt="" />{{ post.writer }}</dd>
 							<dt class="a11y-hidden">Created</dt>
 							<dd class="created">{{ post.created_at|date:'Y.m.d' }}</dd>
-						</dl>
+						</dl> {% endcomment %}
 						<!-- //author -->
 
-						<!-- category -->
+            <form action="{% url 'blog:edit' pk=post.pk %}" method="post">
+              <div class="title-wrap">
+                  {% csrf_token %}
+                  <div>
+                    <inp>{{ form.title }}</inp>
+                  </div>
+              </div>
+
+              <!-- category -->
 						<dl class="category">
 							<dt class="a11y-hidden">Category</dt>
-							<dd>{{ post.category }}</dd>
+							<dd>{{ form.category }}</dd>
 						</dl>
 						<!-- //category -->
+            
+              <hr />
 
-						<div class="title-wrap">
-							<h2>{{ post.title }}</h2>
-							<button class="btn-like">Like</button>
-						</div>
-						<hr />
-						<div class="view-contents">
-							<img src="{% static 'images/post-background6.jpg' %}" alt="" />
-							<p>
-								{{ post.content }}
-							</p>
-						</div>
-						<div class="btn-group">
-							<a href="{% url 'blog:edit' pk=post.pk %}" class="btn-modify">
-								<span class="a11y-hidden">modify</span>
-							</a>
-							<form action="{% url 'blog:delete' pk=post.pk %}" method="post">
-								{% csrf_token %}
-								<button type="submit" class="btn-delete">
-									<span class="a11y-hidden">delete</span>
-								</button>
-							</form>
-						</div>
-						<a href="{% url 'blog:list' %}" class="btn-back">
-							<span class="a11y-hidden">Back</span>
-						</a>
+              <div class="view-contents">
+                <p>
+                  {{ form.content }}
+                </p>
+              </div>
+
+              <input type="submit" value="수정">
+            </form>
+
+            <a href="{% url 'blog:list' %}" class="btn-back">
+              <span class="a11y-hidden">Back</span>
+            </a>
 					</div>
 				</section>
 			</div>

@@ -56,3 +56,30 @@ class Delete(View):
         post = Post.objects.get(pk=pk)
         post.delete()
         return redirect('blog:list')
+
+### 게시글 수정
+class Update(View):
+    def get(self, request, pk): # post_id
+        post = Post.objects.get(pk=pk)
+        # 양식이 이미 정해진 경우 initial
+        form = PostForm(initial={'title': post.title, 'content': post.content})
+        context = {
+            'form': form,
+            'post': post
+        }
+        return render(request, 'blog/post_edit.html', context)
+    
+    def post(self, request, pk):
+        post = Post.objects.get(pk=pk)
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post.title = form.cleaned_data['title']
+            post.content = form.cleaned_data['content']
+            post.save()
+            return redirect('blog:detail', pk=pk)
+        
+        form.add_error('폼이 유효하지 않습니다.')
+        context = {
+            'form': form
+        }
+        return render(request, 'blog/post_edit.html', context)

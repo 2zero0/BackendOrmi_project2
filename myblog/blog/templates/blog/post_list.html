@@ -54,6 +54,18 @@
 				background-color: #f5d3cc !important;
 				padding: 5px 15px !important;
 			}
+
+			.views-box {
+				display: flex;
+				justify-content: flex-end;
+				font-size: small;
+			}
+
+			.views {
+				color: #ff612f;
+				font-weight: bold;
+				white-space: pre;
+			}
 		</style>
 	</head>
 	<body>
@@ -89,10 +101,10 @@
 						</a>
 					</li>
 					<li>
-						<button class="button white">
+						<a href="{% url 'user:logout' %}" class="button white">
 							<img src="{% static 'assets/icon-logout.svg' %}" alt="" />
 							<span>Logout</span>
-						</button>
+						</a>
 					</li>
 					<!-- //로그인 -->
 
@@ -145,6 +157,10 @@
 										<article>
 											<img src="{% static 'images/post-img5.jpg' %}" alt="" />
 											<div class="contents-wrap">
+												<div class="views-box">
+													<b class="views">{{ post.hit }} </b>Views
+												</div>
+
 												<!-- category -->
 												<dl class="category">
 													<dt class="a11y-hidden">Category</dt>

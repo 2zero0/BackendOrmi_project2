@@ -23,7 +23,7 @@ class Detail(View):
     def get(self, request, pk):
         # 해당 글
         post = Post.objects.get(pk=pk)
-
+        post.increase_hit()
         context = {
             "post": post
         }

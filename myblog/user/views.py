@@ -52,7 +52,6 @@ class Login(View):
 
             if user:
                 login(request, user)
-                print(user)
                 return redirect("blog:list")
 
         form.add_error(None, "아이디가 없습니다.")

@@ -120,6 +120,8 @@
 								{{ post.content }}
 							</p>
 						</div>
+
+						{% if post.writer == request.user %}
 						<div class="btn-group">
 							<a href="{% url 'blog:edit' pk=post.pk %}" class="btn-modify">
 								<span class="a11y-hidden">modify</span>
@@ -131,6 +133,8 @@
 								</button>
 							</form>
 						</div>
+						{% endif %}
+
 						<a href="{% url 'blog:list' %}" class="btn-back">
 							<span class="a11y-hidden">Back</span>
 						</a>

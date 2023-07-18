@@ -3,6 +3,7 @@ from django.views import View
 from .models import Post
 from .forms import PostForm
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 ### 게시글 조회
 class Index(View):
@@ -32,7 +33,7 @@ class Detail(View):
 
 
 ### 게시글 작성
-class Write(View):
+class Write(LoginRequiredMixin, View):
     def get(self, request): # 글 작성 폼 출력
 
         form = PostForm()

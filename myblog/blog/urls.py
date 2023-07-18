@@ -14,6 +14,8 @@ urlpatterns = [
     path("detail/<int:pk>/delete/", views.Delete.as_view(), name="delete"),
     # 글 수정
     path("detail/<int:pk>/edit/", views.Update.as_view(), name="edit"),
-    # 검색 기능 처리 URL
+    # 글 검색
     path('search/', views.SearchList.as_view(), name='search'),
+    # 카테고리별 글 목록
+    path("category/<str:category_name>/", views.CategoryPosts.as_view(), name="category_posts"),
 ]

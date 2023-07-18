@@ -8,8 +8,12 @@ from django.db.models import Q
 class Index(View):
     def get(self, request):
         post_objs = Post.objects.all()
+        form = PostForm()
         
-        context = {"posts": post_objs}
+        context = {
+            "posts": post_objs,
+            "form": form
+            }
         
         return render(request, "blog/post_list.html", context)
 
@@ -96,5 +100,18 @@ class SearchList(View):
         context = {
             'search_query': search_query,
             'posts': posts
+        }
+        return render(request, 'blog/post_list.html', context)
+    
+
+### 카테고리별 게시글 목록
+class CategoryPosts(View):
+    def get(self, request, category_name):
+        posts = Post.objects.filter(category=category_name)
+        form = PostForm()
+        context = {
+            'category_name': category_name,
+            'posts': posts,
+            'form': form
         }
         return render(request, 'blog/post_list.html', context)

@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="ko-KR">
 	<head>
@@ -25,6 +26,23 @@
 
 		<link rel="stylesheet" href="{% static 'css/wrapbox.css' %}" />
 		<link rel="stylesheet" href="{% static 'css/view.css' %}" />
+
+		<style>
+
+			.input-box{
+				display: flex;
+				justify-content: center;
+			}
+
+			.input-btn{
+				background-color: #37aaec;
+				font-size: larger;
+				color: white;
+				border: none;
+				border-radius: 10px;
+				padding: 10px;
+			}
+		</style>
 	</head>
 	<body>
 		<!-- header -->
@@ -78,7 +96,7 @@
 		<!--// header -->
 
 		<!-- banner -->
-		<div class="banner" style="background-image: url({% static 'images/post-background5.jpg' %})">
+		<div class="banner" style="background-image: url({% static 'images/post-background2.jpg' %})">
 			<div class="max-width">
         <div class="banner-contents">
 					<p class="today">Write</p>
@@ -102,36 +120,38 @@
 						</dl> {% endcomment %}
 						<!-- //author -->
 
-            <form action="{% url 'blog:write' %}" method="post">
-              <div class="title-wrap">
-                  {% csrf_token %}
-                  <div>
-                    <h2>{{ form.title }}</h2>
-                  </div>
-              </div>
+						<div class="input-box">
+							<form action="{% url 'blog:write' %}" method="post">
+								<div class="title-wrap">
+										{% csrf_token %}
+										<div>
+											<h2>{{ form.title }}</h2>
+										</div>
+								</div>
 
-              <!-- category -->
-						<dl class="category">
-							<dt class="a11y-hidden">Category</dt>
-							<dd>{{ form.category }}</dd>
-						</dl>
-						<!-- //category -->
-            
-              <hr />
+								<!-- category -->
+								<dl class="category">
+									<dt class="a11y-hidden">Category</dt>
+									<dd>{{ form.category }}</dd>
+								</dl>
+								<!-- //category -->
+							
+								<hr />
 
-              <div class="view-contents">
-                <p>
-                  {{ form.content }}
-                </p>
-              </div>
+								<div class="view-contents">
+									<p>
+										{{ form.content }}
+									</p>
+								</div>
 
-              <input type="submit">
-            </form>
+								<input class="input-btn" type="submit" value="Save">
+							</form>
+						</div>
 
             <a href="{% url 'blog:list' %}" class="btn-back">
               <span class="a11y-hidden">Back</span>
             </a>
-					</div>
+					</di>
 				</section>
 			</div>
 		</div>

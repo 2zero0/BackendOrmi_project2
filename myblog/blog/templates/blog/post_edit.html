@@ -81,7 +81,7 @@
 		<div class="banner" style="background-image: url({% static 'images/post-background5.jpg' %})">
 			<div class="max-width">
         <div class="banner-contents">
-					<p class="today">Write</p>
+					<p class="today">Edit</p>
 				</div>
 			</div>
 		</div>
@@ -110,12 +110,13 @@
                   </div>
               </div>
 
-              <!-- category -->
-						<dl class="category">
-							<dt class="a11y-hidden">Category</dt>
-							<dd>{{ form.category }}</dd>
-						</dl>
-						<!-- //category -->
+            <!-- category -->
+            <input type="hidden" name="category" value="{{ post.category }}">
+            <dl class="category">
+                <dt class="a11y-hidden">Category</dt>
+                <dd>{{ post.category }}</dd>
+            </dl>
+            <!-- //category -->
             
               <hr />
 

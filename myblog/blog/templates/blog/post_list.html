@@ -27,6 +27,28 @@
 		<link rel="stylesheet" href="{% static 'css/post.css' %}" />
 		<link rel="stylesheet" href="{% static 'css/posts.css' %}" />
 		<link rel="stylesheet" href="{% static 'css/main.css' %}" />
+
+		<style>
+			.search {
+				border: 5px solid black;
+				border-radius: 10px;
+				padding: 5px;
+			}
+
+			.search-icon {
+				width:40px;
+				height:40px;
+			}
+
+			.search-btn {
+				border: none;
+				margin-left: 5px;
+			}
+
+			.search-box {
+				display: flex;
+			}
+		</style>
 	</head>
 	<body>
 		<!-- header -->
@@ -37,9 +59,16 @@
 						<img src="{% static 'assets/Logo.svg' %}" alt="My Blog" />
 					</a>
 				</h1>
-				<div>
-					<input type="text" style="border: 1px solid blue;">
+
+				<form action="{% url 'blog:search' %}" method="get">
+				<div class="search-box">
+							<input class="search" type="text" name="search">
+							<button type="submit" class="search-btn">
+									<img class="search-icon" src="{% static 'assets/search.png' %}" alt="search">
+							</button>
+					</form>
 				</div>
+
 				<ul>
 					<!-- 로그인 -->
 					<li class="profile-img">

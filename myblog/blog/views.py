@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from .models import Post
 from .forms import PostForm
+from django.db.models import Q
 
 ### 게시글 조회
 class Index(View):
@@ -83,3 +84,17 @@ class Update(View):
             'form': form
         }
         return render(request, 'blog/post_edit.html', context)
+    
+
+### 게시글 검색
+class SearchList(View):
+    def get(self, request):
+        search_query = request.GET.get('search', '')
+        posts = Post.objects.filter(
+            Q(title__icontains=search_query) | Q(content__icontains=search_query)
+        )
+        context = {
+            'search_query': search_query,
+            'posts': posts
+        }
+        return render(request, 'blog/post_list.html', context)

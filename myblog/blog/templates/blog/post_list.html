@@ -66,6 +66,17 @@
 				font-weight: bold;
 				white-space: pre;
 			}
+
+			.heart {
+				width:18px;
+				height:18px;
+			}
+
+			.username {
+				color: #000000;
+				padding: 0px 0 30px;
+				font-size: small;
+			}
 		</style>
 	</head>
 	<body>
@@ -198,10 +209,17 @@
 
 				<!-- about -->
 				<aside class="about">
-					<h2>About Me</h2>
+					{% if user.is_authenticated %}
+					<h2>Profile</h2>
 					<img src="{% static 'images/profile.jpg' %}" alt="" class="user-profile" />
-					<p class="user-name">Chilli</p>
+					<p class="user-name">
+						<img class="heart" src="{% static 'assets/heart.png' %}">
+						{{ user.nickname }}
+						<img class="heart" src="{% static 'assets/heart.png' %}">
+					</p>
+					<p class="username">( {{ user.username }} )</p>
 					<p class="user-description">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+					{% endif %}
 
 					<h3>Categories</h3>
 					<ul class="categories">

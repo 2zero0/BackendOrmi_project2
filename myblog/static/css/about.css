@@ -33,7 +33,7 @@
 	color: var(--main-color);
 	font-weight: bold;
 	font-size: 1.6rem;
-	margin: 1.2rem 0 0.8rem;
+	margin: 1.2rem 0 0;
 }
 .about .user-description {
 	font-size: 1.4rem;

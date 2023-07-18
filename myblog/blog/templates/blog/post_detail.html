@@ -1,0 +1,150 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko-KR">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>My Blog</title>
+		<!-- reset.css : meyerweb -->
+		<link rel="stylesheet" href="{% static 'css/reset.css' %}" />
+		<!-- font : pretendard -->
+		<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+
+		<link rel="stylesheet" href="{% static 'css/global.css' %}" />
+
+		<!-- layout -->
+		<link rel="stylesheet" href="{% static 'css/header.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/footer.css' %}" />
+
+		<!-- component -->
+		<link rel="stylesheet" href="{% static 'css/button.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/banner.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/category.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/author.css' %}" />
+
+		<link rel="stylesheet" href="{% static 'css/wrapbox.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/view.css' %}" />
+	</head>
+	<body>
+		<!-- header -->
+		<header>
+			<div class="max-width">
+				<h1>
+					<a href="{% url 'blog:list' %}">
+						<img src="{% static 'assets/Logo.svg' %}" alt="My Blog" />
+					</a>
+				</h1>
+				<ul>
+					<!-- 로그인 -->
+					<li class="profile-img">
+						<a href="#">
+							<img src="{% static 'assets/profile.jpg' %}" alt="My Page" />
+						</a>
+					</li>
+					<li>
+						<a href="#" class="button">
+							<img src="{% static 'assets/icon-modify-white.svg' %}" alt="" />
+							<span>Write</span>
+						</a>
+					</li>
+					<li>
+						<button class="button white">
+							<img src="{% static 'assets/icon-logout.svg' %}" alt="" />
+							<span>Logout</span>
+						</button>
+					</li>
+					<!-- //로그인 -->
+
+					<!-- 로그아웃 -->
+					<!--
+					<li>
+						<a href="#" class="button gray">
+							<img src="./assets/icon-login.svg" alt="" />
+							<span>Login</span>
+						</a>
+					</li>
+					<li class="only-pc">
+						<a href="#" class="button gray">
+							<img src="./assets/icon-register.svg" alt="" />
+							<span>Register</span>
+						</a>
+					</li>
+          -->
+					<!--// 로그아웃 -->
+				</ul>
+			</div>
+		</header>
+		<!--// header -->
+
+		<!-- banner -->
+		<div class="banner" style="background-image: url({% static 'images/post-background6.jpg' %})">
+			<div class="max-width">
+				<div class="banner-contents">
+					<p class="today">{{ post.created_at|date:"F" }}<em>{{ post.created_at|date:"d" }}</em></p>
+				</div>
+			</div>
+		</div>
+		<!-- //banner -->
+
+		<!-- post view -->
+    {% block content %}
+		<div class="view">
+			<div class="max-width">
+				<section class="wrap-box">
+					<div class="inner">
+						<!-- author -->
+						<dl class="author-wrap">
+							<dt class="a11y-hidden">Author</dt>
+							<dd class="author"><img src="{% static 'images/profile.jpg' %}" alt="" />{{ post.writer }}</dd>
+							<dt class="a11y-hidden">Created</dt>
+							<dd class="created">{{ post.created_at|date:'Y.m.d' }}</dd>
+						</dl>
+						<!-- //author -->
+
+						<!-- category -->
+						<dl class="category">
+							<dt class="a11y-hidden">Category</dt>
+							<dd>{{ post.category }}</dd>
+						</dl>
+						<!-- //category -->
+
+						<div class="title-wrap">
+							<h2>{{ post.title }}</h2>
+							<button class="btn-like">Like</button>
+						</div>
+						<hr />
+						<div class="view-contents">
+							<img src="{% static 'images/post-background6.jpg' %}" alt="" />
+							<p>
+								{{ post.content }}
+							</p>
+						</div>
+						<div class="btn-group">
+							<a href="#" class="btn-modify">
+								<span class="a11y-hidden">modify</span>
+							</a>
+							<button type="button" class="btn-delete">
+								<span class="a11y-hidden">delete</span>
+							</button>
+						</div>
+						<a href="./" class="btn-back">
+							<span class="a11y-hidden">Back</span>
+						</a>
+					</div>
+				</section>
+			</div>
+		</div>
+    {% endblock %}
+    <!-- //post view  -->
+
+		<!-- footer -->
+		<footer>
+			<div class="max-width">
+				<h2>©Weniv Corp.</h2>
+				<button class="top-button">TOP</button>
+			</div>
+		</footer>
+		<!-- //footer -->
+	</body>
+</html>

@@ -48,3 +48,11 @@ class Write(View):
             'form': form
         }
         return render(request, 'blog/post_write.html')
+    
+
+### 게시글 삭제
+class Delete(View):
+    def post(self, requst, pk):
+        post = Post.objects.get(pk=pk)
+        post.delete()
+        return redirect('blog:list')

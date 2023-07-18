@@ -43,7 +43,7 @@
 						</a>
 					</li>
 					<li>
-						<a href="#" class="button">
+						<a href="{% url 'blog:write' %}" class="button">
 							<img src="{% static 'assets/icon-modify-white.svg' %}" alt="" />
 							<span>Write</span>
 						</a>
@@ -124,9 +124,12 @@
 							<a href="#" class="btn-modify">
 								<span class="a11y-hidden">modify</span>
 							</a>
-							<button type="button" class="btn-delete">
-								<span class="a11y-hidden">delete</span>
-							</button>
+							<form action="{% url 'blog:delete' pk=post.pk %}" method="post">
+								{% csrf_token %}
+								<button type="submit" class="btn-delete">
+									<span class="a11y-hidden">delete</span>
+								</button>
+							</form>
 						</div>
 						<a href="./" class="btn-back">
 							<span class="a11y-hidden">Back</span>

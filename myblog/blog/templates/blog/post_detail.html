@@ -115,7 +115,12 @@
 						</div>
 						<hr />
 						<div class="view-contents">
-							<img src="{% static 'images/post-background6.jpg' %}" alt="" />
+							{% if post.image %}
+							<!--사용자가 업로드 한 이미지 출력-->
+							<img src="{{ post.image.url }}" alt="" />
+							{% endif %}
+							
+							<!--글 내용-->
 							<p>
 								{{ post.content }}
 							</p>

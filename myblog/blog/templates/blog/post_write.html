@@ -121,7 +121,7 @@
 						<!-- //author -->
 
 						<div class="input-box">
-							<form action="{% url 'blog:write' %}" method="post">
+							<form action="{% url 'blog:write' %}" method="post" enctype="multipart/form-data">
 								<div class="title-wrap">
 										{% csrf_token %}
 										<div>
@@ -144,6 +144,13 @@
 									</p>
 								</div>
 
+								<!-- image -->
+								<dl class="image">
+									<dt class="a11y-hidden">Image</dt>
+									<dd>{{ form.image }}</dd>
+							</dl>
+							<!-- //image -->
+							
 								<input class="input-btn" type="submit" value="Save">
 							</form>
 						</div>

@@ -13,7 +13,9 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     hit = models.PositiveIntegerField(default=0)
+    image = models.ImageField(upload_to = "images/", null=True, blank=True)
 
+    # 조회수 증가 함수
     def increase_hit(self):
         self.hit += 1
         self.save(update_fields=['hit'])

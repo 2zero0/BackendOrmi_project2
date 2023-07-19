@@ -43,7 +43,7 @@ class Write(LoginRequiredMixin, View):
         return render(request, 'blog/post_write.html', context)
     
     def post(self, request): # submit시 동작(작성 폼 저장)
-        form = PostForm(request. POST)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.writer=request.user

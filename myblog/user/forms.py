@@ -8,7 +8,7 @@ from django.contrib.auth.forms import UserChangeForm
 class RegisterForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username', 'nickname', 'password1', 'password2']
+        fields = ['username', 'nickname', 'password1', 'password2', 'profile_img']
 
 class LoginForm(AuthenticationForm):
     class Meta:
@@ -28,26 +28,26 @@ class ProfileEditForm(UserChangeForm):
 #         model = User
 #         fields = ['username', 'nickname']
         
-    # def clean(self):
-    #   cleaned_data = super().clean()
-    #   print('Cleaned Data:', cleaned_data)
-    #   return cleaned_data
+#     # def clean(self):
+#     #   cleaned_data = super().clean()
+#     #   print('Cleaned Data:', cleaned_data)
+#     #   return cleaned_data
 
-    # def clean_password(self):
-    #     password = self.cleaned_data.get('password')
-    #     if password:
-    #         return make_password(password)
-    #     return None
+#     # def clean_password(self):
+#     #     password = self.cleaned_data.get('password')
+#     #     if password:
+#     #         return make_password(password)
+#     #     return None
     
-    # def save(self, commit=True):
-    #     user = super().save(commit=False)
+#     def save(self, commit=True):
+#         user = super().save(commit=False)
 
-    #     password = self.cleaned_data.get('password')
-    #     if password:
-    #         user.set_password(password)
+#         password = self.cleaned_data.get('password')
+#         if password:
+#             user.set_password(password)
 
-    #     user.nickname = self.cleaned_data.get('nickname')
+#         user.nickname = self.cleaned_data.get('nickname')
 
-    #     if commit:
-    #       user.save() # 수정
-    #     return user
+#         if commit:
+#           user.save() # 수정
+#         return user

@@ -23,7 +23,7 @@ class Registration(View):
     # 제출 눌렀을 때 동작
     def post(self, request):
         # 요청 넣은 채로 폼 만듦
-        form = RegisterForm(request.POST)
+        form = RegisterForm(request.POST, request.FILES)
         if form.is_valid():
             # user모델 사용, form의 내용 저장
             user = form.save()

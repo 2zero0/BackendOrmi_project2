@@ -82,6 +82,10 @@
 				display: flex;
 				justify-content: flex-end;
 			}
+
+			.post-img {
+				height:270px
+			}
 		</style>
 	</head>
 	<body>
@@ -178,9 +182,9 @@
 										<article>
 
 											{% if post.image %}
-											<img src="{{ post.image.url }}" alt="" />
+											<img class="post-img" src="{{ post.image.url }}" alt="" />
 											{% else %}
-											<img src="{% static 'images/post-img5.jpg' %}" alt="" />
+											<img class="post-img" src="{% static 'images/post-img5.jpg' %}" alt="" />
 											{% endif %}
 
 											<div class="contents-wrap">
@@ -200,7 +204,13 @@
 												<!-- author -->
 												<dl class="author-wrap">
 													<dt class="a11y-hidden">Author</dt>
-													<dd class="author"><img src="{% static 'images/profile.jpg' %}" alt="" /> {{ post.writer.nickname }}</dd>
+													<dd class="author">
+														{% if post.writer.profile_img %}
+															<img src="{{ post.writer.profile_img.url }}" alt="" /> {{ post.writer.nickname }}
+														{% else %}
+															<img src="{% static 'images/profile.jpg' %}" alt=""/> {{ post.writer.nickname }}
+														{% endif %}
+													</dd>
 
 													<dt class="a11y-hidden">Created</dt>
 													<dd class="created">{{ post.created_at|date:'Y-m-d' }}</dd>
@@ -226,13 +236,18 @@
 				<aside class="about">
 					<!-- profile -->
 					{% if user.is_authenticated %}
-					<h2>Profile</h2>
-					<div class="profile-edit-btn">
-						<a class="btn-modify" href="{% url 'user:user_edit' username=user.username %}">
-							<span class="a11y-hidden">modify</span>
-						</a>
-					</div>
-						<img src="{% static 'images/profile.jpg' %}" alt="" class="user-profile" />
+						<h2>Profile</h2>
+						<div class="profile-edit-btn">
+							<a class="btn-modify" href="{% url 'user:user_edit' username=user.username %}">
+								<span class="a11y-hidden">modify</span>
+							</a>
+						</div>
+
+						{% if user.profile_img %}
+							<img src="{{ user.profile_img.url }}" alt="" class="user-profile" />
+						{% else %}
+							<img src="{% static 'images/profile.jpg' %}" alt="" class="user-profile" />
+						{% endif %}
 
 						<p class="user-name">
 							<img class="heart" src="{% static 'assets/heart.png' %}">

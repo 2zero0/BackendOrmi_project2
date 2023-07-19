@@ -142,7 +142,7 @@
         <!--로그인 버튼-->
         <li>
           <a href="{% url 'user:login' %}" class="button gray">
-            <img src="./assets/icon-login.svg" alt="" />
+            <img src="{% static 'assets/icon-login.svg' %}" alt="" />
             <span>Login</span>
           </a>
         </li>
@@ -154,19 +154,16 @@
 
   <div class="profile-box">
     <div class="profile-content">
-      <h2 class="profile-title">Profile</h2>
-
-      {% comment %} <img src="{% static 'images/profile.jpg' %}" alt="" class="user-profile" />
-
-      <p class="username">id: {{ user.username }}</p>
-
-      <p class="user-name">nickname: {{ user.nickname }}</p>
-
-      <p class="user-description">desc: Lorem ipsum dolor sit amet consectetur adipisicing elit.</p> {% endcomment %}
+      <h2 class="profile-title">Profile Edit</h2>
 
       <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
+        
+        <p>id: {{ form.username }}</p>
+        <p>nickname: {{ form.nickname }}</p>
+
+        <h3>Change Password</h3>
+        {{ password_change_form.as_p }}
         <button type="submit">Save</button>
       </form>
     </div>

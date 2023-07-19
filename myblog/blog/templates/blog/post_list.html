@@ -130,7 +130,7 @@
 					<!--로그인 버튼-->
 					<li>
 						<a href="{% url 'user:login' %}" class="button gray">
-							<img src="./assets/icon-login.svg" alt="" />
+							<img src="{% static 'assets/icon-login.svg' %}" alt="" />
 							<span>Login</span>
 						</a>
 					</li>
@@ -176,7 +176,7 @@
 								<li>
 									<a href="{% url 'blog:detail' pk=post.pk %}" class="post">
 										<article>
-											
+
 											{% if post.image %}
 											<img src="{{ post.image.url }}" alt="" />
 											{% else %}

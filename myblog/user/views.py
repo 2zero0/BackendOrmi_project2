@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RegisterForm, LoginForm, ProfileEditForm
 from django.contrib.auth import authenticate, login, logout
 from .models import User
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 ### 회원가입
 class Registration(View):
@@ -26,7 +28,7 @@ class Registration(View):
             # user모델 사용, form의 내용 저장
             user = form.save()
             # 로그인한 다음 이동
-            return redirect("blog:list")
+            return redirect("user:login")
 
 
 ### 로그인
@@ -74,21 +76,39 @@ class ProfileEdit(View):
     def get(self, request, username):
         user = get_object_or_404(User, username=username)
         form = ProfileEditForm(instance=user)
+        # 수정한거
+        password_change_form = PasswordChangeForm(user=request.user)
         context = {
             'user': user,
             'form': form,
+            'password_change_form': password_change_form
         }
         return render(request, 'user/user_profile_edit.html', context)
 
     def post(self, request, username):
         user = get_object_or_404(User, username=username)
         form = ProfileEditForm(request.POST, instance=user)
-        if form.is_valid():
+        password_change_form = PasswordChangeForm(user=user, data=request.POST)
+
+        if form.is_valid() and password_change_form.is_valid():
+        # if form.is_valid():
+            print(form.cleaned_data)
             form.save()
+            # user.nickname = form.cleaned_data['nickname']
+            print('view확인 ', user.nickname)
+            # user.save()
+            print('view-save후 확인 ', user.nickname)
+            # print(User.objects.get(username=username).nickname)
+            password_change_form.save()  # 수정
+            # update_session_auth_hash(request, user)  # 수정
+            user.refresh_from_db()
+            login(request, user)
+            print('Nickname after saving:', user.nickname)
             return redirect('blog:list')
         
         context = {
             'user': user,
             'form': form,
+            'password_change_form': password_change_form
         }
         return render(request, 'user/user_profile_edit.html', context)

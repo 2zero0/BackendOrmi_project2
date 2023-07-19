@@ -99,34 +99,39 @@
 				</div>
 
 				<ul>
-					<!-- 로그인 -->
+					<!--로고-->
 					<li class="profile-img">
 						<a href="#">
 							<img src="{% static 'assets/profile.jpg' %}" alt="My Page" />
 						</a>
 					</li>
+					<!--글 작성 버튼-->
 					<li>
 						<a href="{% url 'blog:write' %}" class="button">
 							<img src="{% static 'assets/icon-modify-white.svg' %}" alt="" />
 							<span>Write</span>
 						</a>
 					</li>
+					{% block content %}
+					{% if user.is_authenticated %}
+					<!--로그아웃 버튼-->
 					<li>
 						<a href="{% url 'user:logout' %}" class="button white">
 							<img src="{% static 'assets/icon-logout.svg' %}" alt="" />
 							<span>Logout</span>
 						</a>
 					</li>
-					<!-- //로그인 -->
-
-					<!-- 로그아웃 -->
-					<!--
+					{% else %}
+					<!--로그인 버튼-->
 					<li>
-						<a href="#" class="button gray">
+						<a href="{% url 'user:login' %}" class="button gray">
 							<img src="./assets/icon-login.svg" alt="" />
 							<span>Login</span>
 						</a>
 					</li>
+					{% endif %}
+
+					<!--
 					<li class="only-pc">
 						<a href="#" class="button gray">
 							<img src="./assets/icon-register.svg" alt="" />
@@ -134,7 +139,7 @@
 						</a>
 					</li>
           -->
-					<!--// 로그아웃 -->
+					
 				</ul>
 			</div>
 		</header>
@@ -159,7 +164,7 @@
 			<!-- posts -->
 			<div class="max-width">
 				<h2 class="a11y-hidden">Post</h2>
-				{% block content %}
+
 					{% if posts %}
 						<ul class="posts">
 							{% for post in posts %}
@@ -184,7 +189,8 @@
 												<!-- author -->
 												<dl class="author-wrap">
 													<dt class="a11y-hidden">Author</dt>
-													<dd class="author"><img src="{% static 'images/profile.jpg' %}" alt="" /> {{ post.writer }}</dd>
+													<dd class="author"><img src="{% static 'images/profile.jpg' %}" alt="" /> {{ post.writer.nickname }}</dd>
+
 													<dt class="a11y-hidden">Created</dt>
 													<dd class="created">{{ post.created_at|date:'Y-m-d' }}</dd>
 												</dl>
@@ -203,8 +209,6 @@
 						<!-- 글이 없을 때: 문구 출력 -->
 						<p>작성된 게시물이 없습니다.</p>
 					{% endif %}
-
-				{% endblock %}
 				<!-- //posts -->
 
 				<!-- about -->
@@ -228,6 +232,7 @@
 							<li><a href="{% url 'blog:category_posts' choice.0 %}">{{ choice.1 }}</a></li>
 						{% endfor %}
 					</ul>
+					{% endblock %}
 
 					<h3>Follow</h3>
 					<ul class="sns">

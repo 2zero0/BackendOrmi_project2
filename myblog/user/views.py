@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.views import View
-from django.shortcuts import render, redirect
-from .forms import RegisterForm, LoginForm
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import RegisterForm, LoginForm, ProfileEditForm
 from django.contrib.auth import authenticate, login, logout
+from .models import User
 
-### Registration
-# 일반 뷰로 작성
+### 회원가입
 class Registration(View):
     # 회원가입 정보 입력받음
     def get(self, request):
@@ -29,7 +29,7 @@ class Registration(View):
             return redirect("blog:list")
 
 
-### Login
+### 로그인
 class Login(View):
     def get(self, request):
         if request.user.is_authenticated:
@@ -61,9 +61,34 @@ class Login(View):
         return render(request, "user/user_login.html", context)
 
 
-### Logout
+### 로그아웃
 class Logout(View):
     # 이미 로그인이 된 상태이므로 원래 유저가 정해져 있음
     def get(self, request):
         logout(request)
         return redirect("blog:list")
+    
+
+### 프로필 수정
+class ProfileEdit(View):
+    def get(self, request, username):
+        user = get_object_or_404(User, username=username)
+        form = ProfileEditForm(instance=user)
+        context = {
+            'user': user,
+            'form': form,
+        }
+        return render(request, 'user/user_profile_edit.html', context)
+
+    def post(self, request, username):
+        user = get_object_or_404(User, username=username)
+        form = ProfileEditForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('blog:list')
+        
+        context = {
+            'user': user,
+            'form': form,
+        }
+        return render(request, 'user/user_profile_edit.html', context)

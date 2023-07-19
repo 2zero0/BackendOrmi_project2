@@ -77,6 +77,11 @@
 				padding: 0px 0 30px;
 				font-size: small;
 			}
+
+			.profile-edit-btn {
+				display: flex;
+				justify-content: flex-end;
+			}
 		</style>
 	</head>
 	<body>
@@ -171,7 +176,13 @@
 								<li>
 									<a href="{% url 'blog:detail' pk=post.pk %}" class="post">
 										<article>
+											
+											{% if post.image %}
+											<img src="{{ post.image.url }}" alt="" />
+											{% else %}
 											<img src="{% static 'images/post-img5.jpg' %}" alt="" />
+											{% endif %}
+
 											<div class="contents-wrap">
 												<div class="views-box">
 													<b class="views">{{ post.hit }} </b>Views
@@ -213,17 +224,27 @@
 
 				<!-- about -->
 				<aside class="about">
+					<!-- profile -->
 					{% if user.is_authenticated %}
 					<h2>Profile</h2>
-					<img src="{% static 'images/profile.jpg' %}" alt="" class="user-profile" />
-					<p class="user-name">
-						<img class="heart" src="{% static 'assets/heart.png' %}">
-						{{ user.nickname }}
-						<img class="heart" src="{% static 'assets/heart.png' %}">
-					</p>
-					<p class="username">( {{ user.username }} )</p>
-					<p class="user-description">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+					<div class="profile-edit-btn">
+						<a class="btn-modify" href="{% url 'user:user_edit' username=user.username %}">
+							<span class="a11y-hidden">modify</span>
+						</a>
+					</div>
+						<img src="{% static 'images/profile.jpg' %}" alt="" class="user-profile" />
+
+						<p class="user-name">
+							<img class="heart" src="{% static 'assets/heart.png' %}">
+							{{ user.nickname }}
+							<img class="heart" src="{% static 'assets/heart.png' %}">
+						</p>
+
+						<p class="username">( {{ user.username }} )</p>
+
+						<p class="user-description">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
 					{% endif %}
+					<!-- //profile -->
 
 					<h3>Categories</h3>
 					<ul class="categories">

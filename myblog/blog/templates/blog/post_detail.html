@@ -96,7 +96,7 @@
 						<!-- author -->
 						<dl class="author-wrap">
 							<dt class="a11y-hidden">Author</dt>
-							<dd class="author"><img src="{% static 'images/profile.jpg' %}" alt="" />{{ post.writer }}</dd>
+							<dd class="author"><img src="{% static 'images/profile.jpg' %}" alt="" />{{ post.writer.nickname }}</dd>
 							<dt class="a11y-hidden">Created</dt>
 							<dd class="created">{{ post.created_at|date:'Y.m.d' }}</dd>
 						</dl>
@@ -119,7 +119,7 @@
 							<!--사용자가 업로드 한 이미지 출력-->
 							<img src="{{ post.image.url }}" alt="" />
 							{% endif %}
-							
+
 							<!--글 내용-->
 							<p>
 								{{ post.content }}

@@ -84,7 +84,7 @@
 			}
 
       .profile-box {
-        border: 1px solid black;
+        border-top: 1px solid black;
         padding: 50px;
         display: flex;
         justify-content: center;
@@ -95,6 +95,28 @@
         font-size: xx-large;
       }
       
+      .profile-content {
+        border: 10px solid #37aaec;
+        padding: 20px;
+        border-radius: 20px;
+        margin-top: 50px;
+      }
+
+      .profile-image {
+        width: 300px;
+        height: 300px;
+      }
+
+      #preview {
+				width: 300px;
+				height: 300px;
+				padding: 20px;
+			}
+			
+			.image-box {
+				display:flex;
+				flex-direction: column;
+			}
 		</style>
 </head>
 <body>
@@ -155,11 +177,17 @@
   <div class="profile-box">
     <div class="profile-content">
       <h2 class="profile-title">Profile Edit</h2>
-
-      <form method="POST">
+      <hr>
+      
+      <form action="{% url 'user:user_edit' user.username %}"  method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        
-        <p>id: {{ form.username }}</p>
+      
+        <p>id: {{ user.username }}</p>
+        {% comment %} <p>profile-image: <img class="profile-image" src="{{ user.profile_img.url }}" alt=""></p> {% endcomment %}
+        <div class="image-box">
+          <input type="file" id="id_profile_img" name="profile_img" onchange="readURL(this);">
+          <img id="preview" src="{% if form.profile_img.url %}{{ form.profile_img.url }}{% else %}{{ user.profile_img.url }}{% endif %}" alt="Image Preview">
+        </div>
         <p>nickname: {{ form.nickname }}</p>
 
         <h3>Change Password</h3>
@@ -169,5 +197,19 @@
     </div>
     {% endblock %}
   </div>
+
+  <script>
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('preview').src = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      } else {
+        document.getElementById('preview').src = "";
+      }
+    }
+  </script>
 </body>
 </html>

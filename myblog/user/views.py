@@ -76,7 +76,6 @@ class ProfileEdit(View):
     def get(self, request, username):
         user = get_object_or_404(User, username=username)
         form = ProfileEditForm(instance=user)
-        # 수정한거
         password_change_form = PasswordChangeForm(user=request.user)
         context = {
             'user': user,
@@ -87,23 +86,28 @@ class ProfileEdit(View):
 
     def post(self, request, username):
         user = get_object_or_404(User, username=username)
-        form = ProfileEditForm(request.POST, instance=user)
+        form = ProfileEditForm(request.POST, request.FILES, instance=user)
         password_change_form = PasswordChangeForm(user=user, data=request.POST)
 
-        if form.is_valid() and password_change_form.is_valid():
-        # if form.is_valid():
-            print(form.cleaned_data)
+        # if form.is_valid() and password_change_form.is_valid():
+        #     print(form.cleaned_data)
+        #     form.save()
+        #     print('view확인 ', user.nickname)
+        #     print('view-save후 확인 ', user.nickname)
+        #     password_change_form.save()  
+        #     user.refresh_from_db()
+        #     login(request, user)
+        #     print('Nickname after saving:', user.nickname)
+        #     return redirect('blog:list')
+        if form.is_valid():
             form.save()
-            # user.nickname = form.cleaned_data['nickname']
-            print('view확인 ', user.nickname)
-            # user.save()
-            print('view-save후 확인 ', user.nickname)
-            # print(User.objects.get(username=username).nickname)
-            password_change_form.save()  # 수정
-            # update_session_auth_hash(request, user)  # 수정
-            user.refresh_from_db()
+
+        if password_change_form.is_valid():
+            password_change_form.save()  
+            update_session_auth_hash(request, user) # 패스워드 변경 후 세션 갱신
+
+        if form.is_valid() and password_change_form.is_valid():
             login(request, user)
-            print('Nickname after saving:', user.nickname)
             return redirect('blog:list')
         
         context = {

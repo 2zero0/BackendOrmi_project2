@@ -102,7 +102,7 @@
 						</dl> {% endcomment %}
 						<!-- //author -->
 
-            <form action="{% url 'blog:edit' pk=post.pk %}" method="post">
+            <form action="{% url 'blog:edit' pk=post.pk %}" method="post" enctype="multipart/form-data">
               <div class="title-wrap">
                   {% csrf_token %}
                   <div>
@@ -126,6 +126,13 @@
                 </p>
               </div>
 
+              <!-- image -->
+              <div class="image-box">
+								<input type="file" id="id_image" name="image" onchange="readURL(this);">
+								<img id="preview" src="{% if post.image %}{{ post.image.url }}{% else %}{% static 'images/default.png' %}{% endif %}" alt="Image Preview">
+							</div>
+              <!-- //image -->
+
               <input type="submit" value="수정">
             </form>
 
@@ -147,5 +154,18 @@
 			</div>
 		</footer>
 		<!-- //footer -->
+    <script>
+			function readURL(input) {
+				if (input.files && input.files[0]) {
+					var reader = new FileReader();
+					reader.onload = function(e) {
+						document.getElementById('preview').src = e.target.result;
+					};
+					reader.readAsDataURL(input.files[0]);
+				} else {
+					document.getElementById('preview').src = "";
+				}
+			}
+		</script>
 	</body>
 </html>

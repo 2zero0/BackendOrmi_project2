@@ -84,7 +84,11 @@
 			}
 
 			.post-img {
-				height:270px
+				height:250px
+			}
+			.user-profile {
+				width: 150px !important;
+				height: 150px !important;
 			}
 		</style>
 	</head>
@@ -108,10 +112,12 @@
 				</div>
 
 				<ul>
-					<!--로고-->
+					<!--프사-->
 					<li class="profile-img">
 						<a href="#">
-							<img src="{% static 'assets/profile.jpg' %}" alt="My Page" />
+							{% if user.profile_img %}
+							<img src="{{ user.profile_img.url }}" alt=""/>
+							{% endif %}
 						</a>
 					</li>
 					<!--글 작성 버튼-->

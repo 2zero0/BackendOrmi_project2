@@ -42,6 +42,17 @@
 				border-radius: 10px;
 				padding: 10px;
 			}
+
+			#preview {
+				width: 300px;
+				height: 300px;
+				padding: 20px;
+			}
+			
+			.image-box {
+				display:flex;
+				flex-direction: column;
+			}
 		</style>
 	</head>
 	<body>
@@ -145,13 +156,18 @@
 								</div>
 
 								<!-- image -->
-								<dl class="image">
+								{% comment %} <dl class="image">
 									<dt class="a11y-hidden">Image</dt>
 									<dd>{{ form.image }}</dd>
-							</dl>
+							</dl> {% endcomment %}
 							<!-- //image -->
-							
-								<input class="input-btn" type="submit" value="Save">
+							<div class="image-box">
+								<input type="file" id="id_image" name="image" onchange="readURL(this);">
+								<img id="preview" src="{% if form.image.url %}{{ form.image.url }}{% else %}{% static 'images/default.png' %}{% endif %}" alt="Image Preview">
+							</div>
+
+
+							<input class="input-btn" type="submit" value="Save">
 							</form>
 						</div>
 
@@ -173,5 +189,19 @@
 			</div>
 		</footer>
 		<!-- //footer -->
+
+		<script>
+			function readURL(input) {
+				if (input.files && input.files[0]) {
+					var reader = new FileReader();
+					reader.onload = function(e) {
+						document.getElementById('preview').src = e.target.result;
+					};
+					reader.readAsDataURL(input.files[0]);
+				} else {
+					document.getElementById('preview').src = "";
+				}
+			}
+		</script>
 	</body>
 </html>

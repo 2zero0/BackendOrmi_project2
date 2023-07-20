@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 ### 게시글 조회
 class Index(View):
     def get(self, request):
-        post_objs = Post.objects.all()
+        post_objs = Post.objects.all().order_by('-created_at')
         form = PostForm()
         
         context = {
@@ -103,7 +103,7 @@ class SearchList(View):
         search_query = request.GET.get('search', '')
         posts = Post.objects.filter(
             Q(title__icontains=search_query) | Q(content__icontains=search_query)
-        )
+        ).order_by('-created_at')
         context = {
             'search_query': search_query,
             'posts': posts
@@ -114,7 +114,7 @@ class SearchList(View):
 ### 카테고리별 게시글 목록
 class CategoryPosts(View):
     def get(self, request, category_name):
-        posts = Post.objects.filter(category=category_name)
+        posts = Post.objects.filter(category=category_name).order_by('-created_at')
         form = PostForm()
         context = {
             'category_name': category_name,

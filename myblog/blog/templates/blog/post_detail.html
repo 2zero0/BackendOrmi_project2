@@ -52,7 +52,7 @@
 				display: flex;
 				align-items: center;
 				background-color: #f5d3cc;
-				padding: 4px;
+				padding: 5px;
 				border-radius: 15px;
 				margin-right: 20px;
 			}
@@ -140,7 +140,7 @@
 							<dt class="a11y-hidden">Author</dt>
 							<dd class="author"><img src="{% static 'images/profile.jpg' %}" alt="" />{{ post.writer.nickname }}</dd>
 							<dt class="a11y-hidden">Created</dt>
-							<dd class="created">{{ post.created_at|date:'Y.m.d' }}</dd>
+							<dd class="created">{{ post.created_at|date:'Y-m-d H:i' }}</dd>
 						</dl>
 						<!-- //author -->
 

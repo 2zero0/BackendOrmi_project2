@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import Post
-from .forms import PostForm
+from .models import Post, Comment
+from .forms import PostForm, CommentForm
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -24,9 +24,15 @@ class Detail(View):
     def get(self, request, pk):
         # 해당 글
         post = Post.objects.get(pk=pk)
+        comments = Comment.objects.filter(post=post)
+        comment_form = CommentForm()
+
+        # 조회수 증가
         post.increase_hit()
         context = {
-            "post": post
+            "post": post,
+            "comments": comments,
+            "comment_form": comment_form,
         }
 
         return render(request, 'blog/post_detail.html', context)
@@ -116,3 +122,39 @@ class CategoryPosts(View):
             'form': form
         }
         return render(request, 'blog/post_list.html', context)
+    
+
+### 댓글 작성
+class CommentWrite(View):
+    def post(self, request, pk):
+        form = CommentForm(request.POST)
+        # 해당 아이디에 해당하는 글 불러옴(댓글은 어떤 한 글의 댓글이므로)
+        post = Post.objects.get(pk=pk)
+        
+        if form.is_valid():
+            # 사용자에게 댓글 내용 받아옴
+            content = form.cleaned_data["content"]
+            
+            # 유저 정보 가져오기
+            writer = request.user
+            # 댓글 객체 생성
+            comment = Comment.objects.create(post=post, content=content, writer=writer)
+            return redirect("blog:detail", pk=pk)
+        
+        form.add_error(None, '폼이 유효하지 않습니다.')
+        context = {
+            'post': post,
+            'comment_form': form,
+            'comments': post.comment_set.all(),
+        }
+        return render(request, 'blog/post_detail.html', context)
+
+
+### 댓글 삭제
+class CommentDelete(View):
+    def post(self, request, pk):
+        comment = Comment.objects.get(pk=pk)
+        post_id = comment.post.id
+        comment.delete()
+
+        return redirect("blog:detail", pk=post_id)

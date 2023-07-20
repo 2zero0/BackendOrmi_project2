@@ -1,3 +1,4 @@
+{% load widget_tweaks %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="ko-KR">
@@ -25,6 +26,47 @@
 
 		<link rel="stylesheet" href="{% static 'css/wrapbox.css' %}" />
 		<link rel="stylesheet" href="{% static 'css/view.css' %}" />
+
+		<style>
+			.comment-box {
+				margin-top: 50px;
+			}
+
+			.comment-content {
+				display: flex;
+				align-items: center;
+				border: 1px solid #d1d0d0;
+				padding: 10px;
+				justify-content: space-between;
+				margin-top: 15px !important;
+			}
+
+			.comment-writer-img {
+				width: 50px;
+				height: 50px;
+				border-radius: 50%;
+				margin-right: 10px;
+			}
+
+			.comment-writer {
+				display: flex;
+				align-items: center;
+				background-color: #f5d3cc;
+				padding: 4px;
+				border-radius: 15px;
+				margin-right: 20px;
+			}
+
+			.comment-info {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-end;
+			}
+
+			.comment-textarea {
+				width: 100%;
+			}
+		</style>
 	</head>
 	<body>
 		<!-- header -->
@@ -124,6 +166,52 @@
 							<p>
 								{{ post.content }}
 							</p>
+						</div>
+
+						<div class="comment-box">
+							<h2>Comment</h2>
+							<hr>
+							{% if comments %}
+							<ul>
+								{% for comment in comments %}
+								
+								<li class="comment-content">
+									<div class="comment-writer">
+										<img src="{{ comment.writer.profile_img.url }}" class="comment-writer-img" alt="">
+										{{ comment.writer.nickname }} 
+									</div>
+
+									<div>
+										<p>{{ comment.content }}</p>
+									</div>
+									
+									<div class="comment-info">
+										<p>{{ comment.created_at }}</p>
+										{% if comment.writer == request.user %}
+											<form action="{% url 'blog:cm-delete' pk=comment.pk %}" method="post">
+												{% csrf_token %}
+												<button type="submit" class="btn-delete" />
+													<span class="a11y-hidden">comment-delete</span>
+												</button>
+											</form>
+										</div>
+									{% endif %}
+								</li>
+								{% endfor %}
+							</ul>
+							{% else %}
+							<p>댓글이 없습니다.</p>
+							{% endif %}
+
+							<form action="{% url 'blog:cm-write' pk=post.pk %}" method="post">
+								{% csrf_token %}
+								
+									{{ comment_form.content|add_class:'comment-textarea' }}
+								
+									<button type="submit" class="btn-modify" />
+										<span class="a11y-hidden">comment-write</span>
+									</button>
+							</form>
 						</div>
 
 						{% if post.writer == request.user %}

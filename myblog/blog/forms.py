@@ -1,6 +1,7 @@
 from django import forms
-from .models import Post
+from .models import Post, Comment
 
+# 게시글
 class PostForm(forms.ModelForm):
     YOUR_CHOICES = [
     ("국내여행", "국내여행"),
@@ -19,3 +20,11 @@ class PostForm(forms.ModelForm):
             "title": forms.TextInput(attrs={"placeholder": "Enter the title"}),
             "content": forms.Textarea(attrs={"placeholder": "Enter the content"}),
         }
+
+
+# 댓글
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ["content"]
+        widgets = {"content": forms.Textarea(attrs={"rows": "3", "cols": "35"})}

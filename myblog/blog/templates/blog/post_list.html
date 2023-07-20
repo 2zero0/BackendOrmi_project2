@@ -90,6 +90,11 @@
 				width: 150px !important;
 				height: 150px !important;
 			}
+
+			.category-choice:hover {
+				background-color: #37aaec;
+				color: white;
+			}
 		</style>
 	</head>
 	<body>
@@ -273,7 +278,7 @@
 
 						<p class="username">( {{ user.username }} )</p>
 
-						<p class="user-description">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+						<p class="user-description">Hi! Hello World. <br>Welcome To My Blog!</p>
 					{% endif %}
 					<!-- //profile -->
 
@@ -281,7 +286,7 @@
 					<ul class="categories">
 						<li><a class="select-all" href="{% url 'blog:list' %}">전체</a></li>
 						{% for choice in form.category.field.choices %}
-							<li><a href="{% url 'blog:category_posts' choice.0 %}">{{ choice.1 }}</a></li>
+							<li><a href="{% url 'blog:category_posts' choice.0 %}" class="category-choice">{{ choice.1 }}</a></li>
 						{% endfor %}
 					</ul>
 					{% endblock %}

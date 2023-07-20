@@ -19,3 +19,13 @@ class Post(models.Model):
     def increase_hit(self):
         self.hit += 1
         self.save(update_fields=['hit'])
+
+# 댓글 테이블 
+class Comment(models.Model):
+    post = models.ForeignKey('Post', on_delete=models.CASCADE)
+    content = models.TextField()
+    writer = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.content

@@ -18,4 +18,14 @@ urlpatterns = [
     path('search/', views.SearchList.as_view(), name='search'),
     # 카테고리별 글 목록
     path("category/<str:category_name>/", views.CategoryPosts.as_view(), name="category_posts"),
+    # 코멘트 작성
+    path(
+        "detail/<int:pk>/comment/write/", views.CommentWrite.as_view(), name="cm-write"
+    ),
+    # 코멘트 삭제
+    path(
+        "detail/comment/<int:pk>/delete/",
+        views.CommentDelete.as_view(),
+        name="cm-delete",
+    ),
 ]

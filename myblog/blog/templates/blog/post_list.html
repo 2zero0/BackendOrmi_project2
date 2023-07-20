@@ -93,6 +93,7 @@
 		</style>
 	</head>
 	<body>
+		{% block content %}
 		<!-- header -->
 		<header>
 			<div class="max-width">
@@ -121,13 +122,22 @@
 						</a>
 					</li>
 					<!--글 작성 버튼-->
+					{% if user.is_authenticated %}
 					<li>
 						<a href="{% url 'blog:write' %}" class="button">
 							<img src="{% static 'assets/icon-modify-white.svg' %}" alt="" />
 							<span>Write</span>
 						</a>
 					</li>
-					{% block content %}
+					{% else %}
+					<li class="only-pc">
+						<a href="{% url 'user:register' %}" class="button gray">
+							<img src="{% static 'assets/icon-register.svg' %}" alt="" />
+							<span>Register</span>
+						</a>
+					</li>
+					{% endif %}
+				
 					{% if user.is_authenticated %}
 					<!--로그아웃 버튼-->
 					<li>

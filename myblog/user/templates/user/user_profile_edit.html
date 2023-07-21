@@ -186,7 +186,7 @@
         {% comment %} <p>profile-image: <img class="profile-image" src="{{ user.profile_img.url }}" alt=""></p> {% endcomment %}
         <div class="image-box">
           <input type="file" id="id_profile_img" name="profile_img" onchange="readURL(this);">
-          <img id="preview" src="{% if form.profile_img.url %}{{ form.profile_img.url }}{% else %}{{ user.profile_img.url }}{% endif %}" alt="Image Preview">
+          <img id="preview" src="{% if user.profile_img %}{{ user.profile_img.url }}{% else %}{% static 'images/default.png' %}{% endif %}" alt="Image Preview">
         </div>
         <p>nickname: {{ form.nickname }}</p>
 

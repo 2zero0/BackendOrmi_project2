@@ -62,6 +62,7 @@
 			.image-box {
 				display:flex;
 				flex-direction: column;
+				margin-top: 20px;
 			}
 			.input-title {
 				padding: 5px;
@@ -102,6 +103,9 @@
 				color: #000 !important;
 			}
 		
+			#editor  {
+				margin-top: 20px;
+			}
 		</style>
 	</head>
 	<body>
@@ -114,42 +118,49 @@
 					</a>
 				</h1>
 				<ul>
-					<!-- 로그인 -->
+					<!--프사-->
 					<li class="profile-img">
 						<a href="#">
-							<img src="{% static 'assets/profile.jpg' %}" alt="My Page" />
+							{% if user.profile_img %}
+							<img src="{{ user.profile_img.url }}" alt=""/>
+							{% endif %}
 						</a>
 					</li>
+					<!--글 작성 버튼-->
+					{% if user.is_authenticated %}
 					<li>
-						<a href="#" class="button">
+						<a href="{% url 'blog:write' %}" class="button">
 							<img src="{% static 'assets/icon-modify-white.svg' %}" alt="" />
 							<span>Write</span>
 						</a>
 					</li>
-					<li>
-						<button class="button white">
-							<img src="{% static 'assets/icon-logout.svg' %}" alt="" />
-							<span>Logout</span>
-						</button>
-					</li>
-					<!-- //로그인 -->
-
-					<!-- 로그아웃 -->
-					<!--
-					<li>
-						<a href="#" class="button gray">
-							<img src="./assets/icon-login.svg" alt="" />
-							<span>Login</span>
-						</a>
-					</li>
+					{% else %}
 					<li class="only-pc">
-						<a href="#" class="button gray">
-							<img src="./assets/icon-register.svg" alt="" />
+						<a href="{% url 'user:register' %}" class="button gray">
+							<img src="{% static 'assets/icon-register.svg' %}" alt="" />
 							<span>Register</span>
 						</a>
 					</li>
-          -->
-					<!--// 로그아웃 -->
+					{% endif %}
+
+					{% if user.is_authenticated %}
+					<!--로그아웃 버튼-->
+					<li>
+						<a href="{% url 'user:logout' %}" class="button white">
+							<img src="{% static 'assets/icon-logout.svg' %}" alt="" />
+							<span>Logout</span>
+						</a>
+					</li>
+					{% else %}
+					<!--로그인 버튼-->
+					<li>
+						<a href="{% url 'user:login' %}" class="button gray">
+							<img src="{% static 'assets/icon-login.svg' %}" alt="" />
+							<span>Login</span>
+						</a>
+					</li>
+					{% endif %}
+					
 				</ul>
 			</div>
 		</header>
@@ -184,11 +195,15 @@
 							<form action="{% url 'blog:write' %}" method="post" enctype="multipart/form-data">
 								<div class="title-wrap">
 										{% csrf_token %}
+
 										<div>
+											<h2>Title</h2>
 											<h2>{{ form.title|add_class:'input-title' }}</h2>
 										</div>
 								</div>
 
+								<hr>
+								<h2>Category</h2>
 								<!-- category -->
 								<dl class="selectBox">
 									<dt class="a11y-hidden">Category</dt>
@@ -209,7 +224,7 @@
 								<!-- //category -->
 							
 								<hr />
-
+								<h2>Content</h2>
 								<div class="view-contents">
 									<p hidden>
 										{{ form.content }}
@@ -225,6 +240,9 @@
 									<dd>{{ form.image }}</dd>
 							</dl> {% endcomment %}
 							<!-- //image -->
+							
+							<hr>
+							<h2>Thumbnail Image</h2>
 							<div class="image-box">
 								<input type="file" id="id_image" name="image" onchange="readURL(this);">
 								<img id="preview" src="{% if form.image.url %}{{ form.image.url }}{% else %}{% static 'images/default.png' %}{% endif %}" alt="Image Preview">

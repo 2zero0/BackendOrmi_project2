@@ -114,8 +114,8 @@
 							<button type="submit" class="search-btn">
 									<img class="search-icon" src="{% static 'assets/search.png' %}" alt="search">
 							</button>
-					</form>
-				</div>
+					</div>
+				</form>
 
 				<ul>
 					<!--프사-->
@@ -126,6 +126,7 @@
 							{% endif %}
 						</a>
 					</li>
+
 					<!--글 작성 버튼-->
 					{% if user.is_authenticated %}
 					<li>
@@ -143,8 +144,8 @@
 					</li>
 					{% endif %}
 				
-					{% if user.is_authenticated %}
 					<!--로그아웃 버튼-->
+					{% if user.is_authenticated %}
 					<li>
 						<a href="{% url 'user:logout' %}" class="button white">
 							<img src="{% static 'assets/icon-logout.svg' %}" alt="" />
@@ -160,15 +161,6 @@
 						</a>
 					</li>
 					{% endif %}
-
-					<!--
-					<li class="only-pc">
-						<a href="#" class="button gray">
-							<img src="./assets/icon-register.svg" alt="" />
-							<span>Register</span>
-						</a>
-					</li>
-          -->
 					
 				</ul>
 			</div>

@@ -70,6 +70,38 @@
 				color: white;
 				border-radius: 10px;
 			}
+
+			.selectBox {
+				position: relative;
+				width: 150px;
+				height: 35px;
+				border-radius: 4px;
+				border: 2px solid #f5a392;
+				margin-top: 20px;
+			}
+			.selectBox .select {
+				width: inherit;
+				height: inherit;
+				background: transparent;
+				border: 0 none;
+				outline: 0 none;
+				padding: 0 5px;
+				position: relative;
+				z-index: 3;
+				
+			}
+			.selectBox .select option {
+				background: #f5a392;
+				color: #fff;
+				padding: 3px 0;
+				font-size: 16px;
+			}
+			
+			.selectBox .select option:hover {
+				background: #ffccaa !important;
+				color: #000 !important;
+			}
+		
 		</style>
 	</head>
 	<body>
@@ -158,9 +190,21 @@
 								</div>
 
 								<!-- category -->
-								<dl class="category">
+								<dl class="selectBox">
 									<dt class="a11y-hidden">Category</dt>
-									<dd>{{ form.category }}</dd>
+									{% comment %} <dd>{{ form.category|add_class:"selectBox" }}</dd> {% endcomment %}
+									<select name="category" class="select" id="id_category">
+										<option value="국내여행">국내여행</option>
+									
+										<option value="해외여행">해외여행</option>
+									
+										<option value="먹방여행">먹방여행</option>
+									
+										<option value="자연여행">자연여행</option>
+									
+										<option value="액티비티">액티비티</option>
+									
+									</select>
 								</dl>
 								<!-- //category -->
 							

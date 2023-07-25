@@ -75,7 +75,7 @@
 				justify-content: center;
 				flex-direction: column;
 				align-items: center;
-				background-color: #37aaec;
+				background-color: #f5a392;
 				margin: 0 auto;
 			}
 			.thumbnail-title {
@@ -193,7 +193,7 @@
 							<h2>Content</h2>
 							<!--글 내용-->
 							<div class="content-box">
-								{{ post.content | safe }}
+								{{ post.content|safe }}
 							</div>
 						</div>
 						
@@ -275,5 +275,12 @@
 			</div>
 		</footer>
 		<!-- //footer -->
+
+		<script>
+			const scrollTopBtn = document.querySelector('.top-button');
+			scrollTopBtn.addEventListener("click", function() {
+				window.scrollTo(0, 0);
+			});
+		</script>
 	</body>
 </html>

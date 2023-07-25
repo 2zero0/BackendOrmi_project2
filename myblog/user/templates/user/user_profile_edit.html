@@ -120,58 +120,82 @@
 		</style>
 </head>
 <body>
-  <header>
-    <div class="max-width">
-      <h1>
-        <a href="{% url 'blog:list' %}">
-          <img src="{% static 'assets/Logo.svg' %}" alt="My Blog" />
-        </a>
-      </h1>
+  {% block content %}
+		<!-- header -->
+		<header>
+			<div class="max-width">
+				<h1>
+					<a href="{% url 'blog:list' %}">
+						<img src="{% static 'assets/Logo.svg' %}" alt="My Blog" />
+					</a>
+				</h1>
 
-      <form action="{% url 'blog:search' %}" method="get">
-      <div class="search-box">
-            <input class="search" type="text" name="search">
-            <button type="submit" class="search-btn">
-                <img class="search-icon" src="{% static 'assets/search.png' %}" alt="search">
-            </button>
-        </form>
-      </div>
+				<form action="{% url 'blog:search' %}" method="get">
+				<div class="search-box">
+							<input class="search" type="text" name="search">
+							<button type="submit" class="search-btn">
+									<img class="search-icon" src="{% static 'assets/search.png' %}" alt="search">
+							</button>
+					</form>
+				</div>
 
-      <ul>
-        <!--로고-->
-        <li class="profile-img">
-          <a href="#">
-            <img src="{% static 'assets/profile.jpg' %}" alt="My Page" />
-          </a>
-        </li>
-        <!--글 작성 버튼-->
-        <li>
-          <a href="{% url 'blog:write' %}" class="button">
-            <img src="{% static 'assets/icon-modify-white.svg' %}" alt="" />
-            <span>Write</span>
-          </a>
-        </li>
-        {% block content %}
-        {% if user.is_authenticated %}
-        <!--로그아웃 버튼-->
-        <li>
-          <a href="{% url 'user:logout' %}" class="button white">
-            <img src="{% static 'assets/icon-logout.svg' %}" alt="" />
-            <span>Logout</span>
-          </a>
-        </li>
-        {% else %}
-        <!--로그인 버튼-->
-        <li>
-          <a href="{% url 'user:login' %}" class="button gray">
-            <img src="{% static 'assets/icon-login.svg' %}" alt="" />
-            <span>Login</span>
-          </a>
-        </li>
-        {% endif %}
-      </ul>
-    </div>
-  </header>
+				<ul>
+					<!--프사-->
+					<li class="profile-img">
+						<a href="#">
+							{% if user.profile_img %}
+							<img src="{{ user.profile_img.url }}" alt=""/>
+							{% endif %}
+						</a>
+					</li>
+					<!--글 작성 버튼-->
+					{% if user.is_authenticated %}
+					<li>
+						<a href="{% url 'blog:write' %}" class="button">
+							<img src="{% static 'assets/icon-modify-white.svg' %}" alt="" />
+							<span>Write</span>
+						</a>
+					</li>
+					{% else %}
+					<li class="only-pc">
+						<a href="{% url 'user:register' %}" class="button gray">
+							<img src="{% static 'assets/icon-register.svg' %}" alt="" />
+							<span>Register</span>
+						</a>
+					</li>
+					{% endif %}
+				
+					{% if user.is_authenticated %}
+					<!--로그아웃 버튼-->
+					<li>
+						<a href="{% url 'user:logout' %}" class="button white">
+							<img src="{% static 'assets/icon-logout.svg' %}" alt="" />
+							<span>Logout</span>
+						</a>
+					</li>
+					{% else %}
+					<!--로그인 버튼-->
+					<li>
+						<a href="{% url 'user:login' %}" class="button gray">
+							<img src="{% static 'assets/icon-login.svg' %}" alt="" />
+							<span>Login</span>
+						</a>
+					</li>
+					{% endif %}
+
+					<!--
+					<li class="only-pc">
+						<a href="#" class="button gray">
+							<img src="./assets/icon-register.svg" alt="" />
+							<span>Register</span>
+						</a>
+					</li>
+          -->
+					
+				</ul>
+			</div>
+		</header>
+		<!--// header -->
 
 
   <div class="profile-box">

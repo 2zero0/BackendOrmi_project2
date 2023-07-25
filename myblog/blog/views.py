@@ -24,8 +24,11 @@ class Index(View):
 ### 게시글 상세
 class Detail(View):
     def get(self, request, pk):
-        # 해당 글
-        post = Post.objects.get(pk=pk)
+        try:
+            post = Post.objects.get(pk=pk)
+        except:
+            return render(request,'blog/post_detail_error.html')
+        
         comments = Comment.objects.filter(post=post)
         comment_form = CommentForm()
 

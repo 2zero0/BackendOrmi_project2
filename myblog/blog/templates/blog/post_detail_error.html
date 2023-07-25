@@ -1,0 +1,113 @@
+{% load widget_tweaks %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko-KR">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>My Blog</title>
+		<!-- reset.css : meyerweb -->
+		<link rel="stylesheet" href="{% static 'css/reset.css' %}" />
+		<!-- font : pretendard -->
+		<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+
+		<link rel="stylesheet" href="{% static 'css/global.css' %}" />
+
+		<!-- layout -->
+		<link rel="stylesheet" href="{% static 'css/header.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/footer.css' %}" />
+
+		<!-- component -->
+		<link rel="stylesheet" href="{% static 'css/button.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/banner.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/category.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/author.css' %}" />
+
+		<link rel="stylesheet" href="{% static 'css/wrapbox.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/view.css' %}" />
+
+		<style>
+			.error-box {
+        padding: 50px;
+        font-size: large;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 200px;
+        margin-top: 100px;
+      }
+		</style>
+	</head>
+	<body>
+		{% block content %}
+		<!-- header -->
+		<header>
+			<div class="max-width">
+				<h1>
+					<a href="{% url 'blog:list' %}">
+						<img src="{% static 'assets/Logo.svg' %}" alt="My Blog" />
+					</a>
+				</h1>
+				<ul>
+					<!--프사-->
+					<li class="profile-img">
+						<a href="#">
+							{% if user.profile_img %}
+							<img src="{{ user.profile_img.url }}" alt=""/>
+							{% endif %}
+						</a>
+					</li>
+						<a href="{% url 'blog:write' %}" class="button">
+							<img src="{% static 'assets/icon-modify-white.svg' %}" alt="" />
+							<span>Write</span>
+						</a>
+					</li>
+					<li>
+						<button class="button white">
+							<img src="{% static 'assets/icon-logout.svg' %}" alt="" />
+							<span>Logout</span>
+						</button>
+					</li>
+					<!-- //로그인 -->
+
+					<!-- 로그아웃 -->
+					<!--
+					<li>
+						<a href="#" class="button gray">
+							<img src="./assets/icon-login.svg" alt="" />
+							<span>Login</span>
+						</a>
+					</li>
+					<li class="only-pc">
+						<a href="#" class="button gray">
+							<img src="./assets/icon-register.svg" alt="" />
+							<span>Register</span>
+						</a>
+					</li>
+          -->
+					<!--// 로그아웃 -->
+				</ul>
+			</div>
+		</header>
+    {% endblock %}
+		<!--// header -->
+
+
+		<!-- post view -->
+		<div class="error-box">
+      <h2>존재하지 않는 게시글입니다</h2>
+      <p>로고를 눌러 메인으로 이동하십시오.</p>
+    </div>
+    
+    <!-- //post view  -->
+
+		<!-- footer -->
+		<footer>
+			<div class="max-width">
+				<h2>©Weniv Corp.</h2>
+				
+			</div>
+		</footer>
+		<!-- //footer -->
+	</body>
+</html>

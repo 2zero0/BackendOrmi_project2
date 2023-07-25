@@ -29,3 +29,7 @@ class Comment(models.Model):
     
     def __str__(self):
         return self.content
+
+# 이미지 업로드
+class ImageUpload(models.Model):
+    image = models.ImageField(upload_to='upload_img/',null=True)

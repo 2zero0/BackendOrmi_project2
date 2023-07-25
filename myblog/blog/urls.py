@@ -24,8 +24,8 @@ urlpatterns = [
     ),
     # 코멘트 삭제
     path(
-        "detail/comment/<int:pk>/delete/",
-        views.CommentDelete.as_view(),
-        name="cm-delete",
+        "detail/comment/<int:pk>/delete/", views.CommentDelete.as_view(), name="cm-delete",
     ),
+    # 이미지 업로드
+    path('imageupload/', views.ImgUpload.as_view() , name='img-upload'),
 ]

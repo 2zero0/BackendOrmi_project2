@@ -66,6 +66,29 @@
 			.comment-textarea {
 				width: 100%;
 			}
+
+			.thumbnail-box {
+				border-radius: 30px;
+				padding: 40px;
+				width: 400px;
+				display: flex;
+				justify-content: center;
+				flex-direction: column;
+				align-items: center;
+				background-color: #37aaec;
+				margin: 0 auto;
+			}
+			.thumbnail-title {
+				font-size: large !important;
+				font-weight: bold;
+				background-color: white;
+				padding: 5px;
+				border-radius: 10px;
+			}
+
+			.content-box {
+				margin-top: 50px;
+			}
 		</style>
 	</head>
 	<body>
@@ -159,19 +182,24 @@
 						<hr />
 						<div class="view-contents">
 							{% if post.image %}
-							<!--사용자가 업로드 한 이미지 출력-->
-							<img src="{{ post.image.url }}" alt="" />
+							<div class="thumbnail-box">
+								<!--사용자가 업로드 한 이미지 출력-->
+								<p class="thumbnail-title">Thumbnail Image</p>
+								<img src="{{ post.image.url }}" alt="" />
+							</div>
+							<hr>
 							{% endif %}
 
+							<h2>Content</h2>
 							<!--글 내용-->
-							<p>
-								{{ post.content|safe }}
-							</p>
+							<div class="content-box">
+								{{ post.content | safe }}
+							</div>
 						</div>
-
+						
+						<hr>
+						<h2>Comment</h2>
 						<div class="comment-box">
-							<h2>Comment</h2>
-							<hr>
 							{% if comments %}
 							<ul>
 								{% for comment in comments %}

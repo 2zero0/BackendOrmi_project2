@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import Post, Comment
+from .models import Post, Comment, ImageUpload
 from .forms import PostForm, CommentForm
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 ### 게시글 조회
 class Index(View):
@@ -124,6 +126,17 @@ class CategoryPosts(View):
         }
         return render(request, 'blog/post_list.html', context)
     
+
+### 이미지 업로드 (toast ui)
+class ImgUpload(View):
+    def post(self, request):
+        image = request.FILES['image']
+        imageUpload = ImageUpload.objects.create(image=image)
+        url = imageUpload.image
+        data = {
+            'url': str(url)
+        }
+        return JsonResponse(data)
 
 ### 댓글 작성
 class CommentWrite(View):

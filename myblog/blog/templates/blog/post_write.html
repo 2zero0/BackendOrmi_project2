@@ -27,11 +27,18 @@
 		<link rel="stylesheet" href="{% static 'css/wrapbox.css' %}" />
 		<link rel="stylesheet" href="{% static 'css/view.css' %}" />
 
+		<!--Toast UI Test-->
+		<link
+        rel="stylesheet"
+        href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"
+    />
+		<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 		<style>
 
 			.input-box{
 				display: flex;
 				justify-content: center;
+				flex-direction: column;
 			}
 
 			.input-btn{
@@ -150,10 +157,13 @@
 								<hr />
 
 								<div class="view-contents">
-									<p>
+									<p hidden>
 										{{ form.content }}
 									</p>
+									<div id="editor"></div>
 								</div>
+								<!--toast ui test-->
+							
 
 								<!-- image -->
 								{% comment %} <dl class="image">
@@ -166,10 +176,10 @@
 								<img id="preview" src="{% if form.image.url %}{{ form.image.url }}{% else %}{% static 'images/default.png' %}{% endif %}" alt="Image Preview">
 							</div>
 
-
-							<input class="input-btn" type="submit" value="Save">
-							</form>
+							<input class="input-btn" id="submitbtn" type="submit" value="Save">
+						</form>
 						</div>
+
 
             <a href="{% url 'blog:list' %}" class="btn-back">
               <span class="a11y-hidden">Back</span>
@@ -189,8 +199,21 @@
 			</div>
 		</footer>
 		<!-- //footer -->
-
+		
 		<script>
+			const Editor = toastui.Editor;
+			const editor = new Editor({
+				el: document.querySelector('#editor'),
+				height: "500px",
+				previewStyle: 'vertical',
+			});
+
+			document.getElementById('submitbtn').addEventListener('click', function(){
+				const markdownContent = editor.getHTML();
+				document.getElementById('id_content').value = markdownContent
+			});
+
+
 			function readURL(input) {
 				if (input.files && input.files[0]) {
 					var reader = new FileReader();
@@ -202,6 +225,12 @@
 					document.getElementById('preview').src = "";
 				}
 			}
+
+			
+			{% comment %} form.addEventListener('submit', (e) => {
+				const contentInput = document.querySelector('.contentInput');
+				contentInput.value = (typeof editor.getMarkdown() !== 'undefined') ? editor.getMarkdown() : '';
+			}); {% endcomment %}
 		</script>
 	</body>
 </html>

@@ -1,4 +1,5 @@
 {% load static %}
+{% load widget_tweaks %}
 <!DOCTYPE html>
 <html lang="ko-KR">
 	<head>
@@ -25,6 +26,65 @@
 
 		<link rel="stylesheet" href="{% static 'css/wrapbox.css' %}" />
 		<link rel="stylesheet" href="{% static 'css/view.css' %}" />
+
+		<!--Toast UI Test-->
+		<link
+        rel="stylesheet"
+        href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"
+    />
+		<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<meta name="csrf-token" content="{{ csrf_token }}">
+
+		<style>
+			.input-box{
+				display: flex;
+				justify-content: center;
+				flex-direction: column;
+			}
+
+			.input-btn{
+				background-color: #37aaec;
+				font-size: larger;
+				color: white;
+				border: none;
+				border-radius: 10px;
+				padding: 10px 20px;
+				margin-top: 25px;
+				font-size: x-large;
+			}
+
+			#preview {
+				width: 400px;
+				height: 400px;
+				padding: 20px;
+				margin: 0 auto;
+			}
+			
+			.image-box {
+				display:flex;
+				flex-direction: column;
+				margin-top: 20px;
+			}
+			.input-title {
+				padding: 5px;
+				background-color: #f5a392;
+				border: none;
+				color: white;
+				border-radius: 10px;
+			}
+
+			#editor  {
+				margin-top: 20px;
+			}
+
+			.category-value {
+				color: #37aaec;
+				padding: 5px;
+				margin-top: 10px;
+			}
+
+		</style>
 	</head>
 	<body>
 		<!-- header -->
@@ -102,48 +162,48 @@
 			<div class="max-width">
 				<section class="wrap-box">
 					<div class="inner">
-						<!-- author -->
-						{% comment %} <dl class="author-wrap">
-							<dt class="a11y-hidden">Author</dt>
-							<dd class="author"><img src="{% static 'images/profile.jpg' %}" alt="" />{{ post.writer }}</dd>
-							<dt class="a11y-hidden">Created</dt>
-							<dd class="created">{{ post.created_at|date:'Y.m.d' }}</dd>
-						</dl> {% endcomment %}
-						<!-- //author -->
 
-            <form action="{% url 'blog:edit' pk=post.pk %}" method="post" enctype="multipart/form-data">
-              <div class="title-wrap">
-                  {% csrf_token %}
-                  <div>
-                    <inp>{{ form.title }}</inp>
-                  </div>
-              </div>
+						<div class="input-box">
+							<form action="{% url 'blog:edit' pk=post.pk %}" method="post" enctype="multipart/form-data">
+								<div class="title-wrap">
+										{% csrf_token %}
 
-            <!-- category -->
-            <input type="hidden" name="category" value="{{ post.category }}">
-            <dl class="category">
-                <dt class="a11y-hidden">Category</dt>
-                <dd>{{ post.category }}</dd>
-            </dl>
-            <!-- //category -->
-            
-              <hr />
+										<div>
+											<h2>Title</h2>
+											<h2>{{ form.title|add_class:'input-title' }}</h2>
+										</div>
+								</div>
 
-              <div class="view-contents">
-                <p>
-                  {{ form.content }}
-                </p>
-              </div>
+							<hr>
+							<h2>Category</h2>
+							<!-- category -->
+							<input type="hidden" name="category" value="{{ post.category }}">
+							<dl class="category-value">
+									<dt class="a11y-hidden">Category</dt>
+									<dd>{{ post.category }}</dd>
+							</dl>
+							<!-- //category -->
+							
+								<hr />
+								<h2>Content</h2>
+								<div class="view-contents">
+									<input type="hidden" name="content" id="id_content" value="{% if post.content %}{{ post.content|escape }}{% endif %}">
+									<div id="editor"></div>
+								</div>
 
-              <!-- image -->
-              <div class="image-box">
-								<input type="file" id="id_image" name="image" onchange="readURL(this);">
-								<img id="preview" src="{% if post.image %}{{ post.image.url }}{% else %}{% static 'images/default.png' %}{% endif %}" alt="Image Preview">
-							</div>
-              <!-- //image -->
+								<hr>
+								<h2>Thumbnail Image</h2>
+								<!-- image -->
+								<div class="image-box">
+									<input type="file" id="id_image" name="image" onchange="readURL(this);">
+									<img id="preview" src="{% if post.image %}{{ post.image.url }}{% else %}{% static 'images/default.png' %}{% endif %}" alt="Image Preview">
+								</div>
+								<!-- //image -->
 
-              <input type="submit" value="수정">
-            </form>
+								
+							<input class="input-btn" id="submitbtn" type="submit" value="Edit">
+							</form>
+						</div>
 
             <a href="{% url 'blog:list' %}" class="btn-back">
               <span class="a11y-hidden">Back</span>
@@ -175,6 +235,23 @@
 					document.getElementById('preview').src = "";
 				}
 			}
+
+			document.addEventListener('DOMContentLoaded', () => {
+        const editor = new toastui.Editor({
+            el: document.querySelector('#editor'),
+            height: '500px',
+            initialValue: document.getElementById('id_content').value,
+            previewStyle: 'vertical',
+            initialEditType: 'markdown',
+            useCommandShortcut: true,
+        });
+
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (event) => {
+            const contentElement = document.querySelector('#id_content');
+            contentElement.value = editor.getHTML();
+        });
+    });
 		</script>
 	</body>
 </html>
